@@ -7,49 +7,10 @@ import googlemaps
 import math
 from datetime import datetime
 
-def textReader():
-    fileName = "provinces.txt"
-    file_object = open(fileName)
-    dict = {}
-    with open(fileName) as f:
-        line = f.readline()
-        line = f.readline()
-        while line:
-            print(line)
-            information = line.split()
-            province = information[1]
-            if ord(province[0])<=ord('9') and ord(province[0])>=ord('0'):
-                print("===================numbers found!===============")
-                print(line)
-                # input()
-                line = f.readline()
-                continue
-            lat = float(information[-2])
-            lon = float(information[-1])
-            code = geohash.encode(lat, lon, precision = 6)
-            print(code)
-            subName = code[0:3]
-            subDict = dict.get(subName, {})
-            str = ""
-            for i in range(len(information)-2): str = str+" "+information[i]
-            subDict[code] = str
-            dict[subName] = subDict
-            line = f.readline()
-
-    print("============================encode finished================================")
-    # print(dict)
-    path = "./dics/"
-    for key,value in dict.items():
-        subDict = dict[key]
-        # print(subDict)
-        j = json.dumps(subDict)
-        subName = key
-        js = open(path+subName+".json","w")
-        js.write(j)
-        js.close()
-
-def findNearestProvince(lat, lon, precis, K):
+def findNearestProvince(lat, lon, K, ifset):
+    # print(lat, lon)
     folderPath = "./dics/"
+    precis = 6
     code = geohash.encode(lat,lon,precision=precis)
     print("GeoHash Code: "+code)
 
@@ -66,7 +27,7 @@ def findNearestProvince(lat, lon, precis, K):
     i = 0
     provinces = []
     keys = []
-    while count > 0:
+    while count > 1:
         fileName = folderPath+n1[middle+i]
         with open(fileName) as f:
             file = json.load(f)
@@ -79,6 +40,7 @@ def findNearestProvince(lat, lon, precis, K):
                 provinces.append(res[loop])
                 keys.append(distanceCal(code, key[loop]))
     d = dict(zip(keys, provinces))
+    if ifset==0 : return d
     d_k = dict(sorted(d.items(), key=lambda x: x[0]))
     values = set()
     l = list(d_k.keys())[:]
@@ -121,7 +83,9 @@ def findHelper(code, list, K):
 
 def dictFinder(code, dic, limit):
     if len(dic) < limit:
-        return len(dic), dict
+        ans = list(dic.keys())
+        ans.append(len(dic))
+        return ans, list(dic.values())
     else:
         res = []
         ans = findHelper(code, list(dic.keys()), limit)
@@ -168,14 +132,14 @@ def compare2provinces(orig, comp1, comp2, precis):
 
 
 if __name__ == '__main__':
-    # textReader()
-    # print("The Geohash precision in this project is 6")
-    # lat = float(input("Please input Latitude and press Enter: "))
-    # lon = float(input("Please input Longitude and press Enter: "))
-    # K = int(input("Please input how many provinces you want to find near this point: "))
-    # print(findNearestProvince(lat,lon,6, K))
-    ans = findNearestProvince(36.4611122, -109.4784394, 6, 6)
+    print("The Geohash precision in this project is 6")
+    lat = float(input("Please input Latitude and press Enter: "))
+    lon = float(input("Please input Longitude and press Enter: "))
+    K = int(input("Please input how many provinces you want to find near this point: "))
+    ifset = int(input("Do you want to remove the repolicated points in same provinces in the results? (1-yes, 0-no) "))
+    ans = findNearestProvince(lat,lon, K, 1)
+    # ans = findNearestProvince(36.4611122, -109.4784394,6, 1)
     for k,v in ans.items():
         print("The nearest reference point would be in" + str(v) + " with approximately "+ str(k) + " km distance")
-    print("This results has removed the replicated points.")
-    # print(geohash.encode(36.4611122,-109.4784394 ,precision=6))
+    if ifset :
+        print("This results has removed the replicated points.")

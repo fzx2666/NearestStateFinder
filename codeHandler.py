@@ -3,7 +3,6 @@ import json
 import os
 import shutil
 import re
-import googlemaps
 import math
 from datetime import datetime
 

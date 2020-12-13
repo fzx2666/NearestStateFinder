@@ -7,9 +7,9 @@ import math
 from datetime import datetime
 import sys
 
-def findNearestProvince(lat, lon, K, ifset):
+def findNearestProvince(lat, lon, K, ifset,folderPath = "./dics/" ):
     # print(lat, lon)
-    folderPath = "./dics/"
+    #folderPath = "./dics/"
     precis = 6
     code = geohash.encode(lat,lon,precision=precis)
     print("GeoHash Code: "+code)
@@ -150,7 +150,11 @@ def compare2provinces(orig, comp1, comp2, precis):
 
 if __name__ == '__main__':
     arguments = sys.argv
-    finalResults = findNearestProvince(float(arguments[1]),float(arguments[2]), int(arguments[3]), int(arguments[4]))
+    if(len(arguments)<=4):
+        finalResults = findNearestProvince(float(arguments[1]),float(arguments[2]), int(arguments[3]), int(arguments[4]))
+    else:
+        print(arguments)
+        finalResults = findNearestProvince(float(arguments[1]),float(arguments[2]), int(arguments[3]), int(arguments[4]),arguments[5]+'dics/')
     # finalResults = findNearestProvince(40, -95 ,5, 1)
     js = {}
     for i in range(int(arguments[3])):
@@ -159,5 +163,7 @@ if __name__ == '__main__':
     ans = open("results.json","w")
     ans.write(ret)
     ans.close()
+    if len(arguments)>5:
+        print(js)
 
 

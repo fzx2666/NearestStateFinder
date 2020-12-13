@@ -8,7 +8,7 @@ import { exec } from 'child_process'
 
 Vue.use(VueGoogleMaps,{
   load:{
-    key:'AIzaSyCq_ytJah-ekYRnnG-_PsKcvuctU-Sa4wc'
+    key:'AIzaSyCP9HeirGvHuLQXL_EOLC83OjfBCbQQA_o'
   },
   installComponents: true
 })

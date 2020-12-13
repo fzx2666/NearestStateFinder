@@ -187,15 +187,16 @@ export default class App extends Vue {
   public numberOfCities = 1;
   public markers: Marker[] = [];
   public cities: CityInfo[] = [];
+  pyPath = 'D:/repos/NearestStateFinder/';
   onMapClick(event: any): void{
     Vue.set(this.markers,0,new Marker(event.latLng));
     const lat = event.latLng.lat();
     const lng = event.latLng.lng();
     const shellOptions = {
-      scriptPath: 'D:/repos/NearestStateFinder/',
+      scriptPath: this.pyPath,
       pythonPath:'python3',
       pythonOptions: ['-u'],
-      args: [lat,lng,this.numberOfCities,1]
+      args: [lat,lng,this.numberOfCities,1,this.pyPath]
     }
     console.log(shellOptions);
     PythonShell.run('codeHandler.py',shellOptions,(err,result)=>{

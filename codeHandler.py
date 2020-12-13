@@ -27,8 +27,14 @@ def findNearestProvince(lat, lon, K, ifset):
     i = 0
     provinces = []
     keys = []
+    minus = 1
+    incre = 0
+    laslons = []
     while count > 1:
         fileName = folderPath+n1[middle+i]
+        incre = incre+1
+        i = i+incre*minus
+        minus = minus*(-1)
         with open(fileName) as f:
             file = json.load(f)
 
@@ -39,18 +45,28 @@ def findNearestProvince(lat, lon, K, ifset):
             for loop in range(len(key)-1):
                 provinces.append(res[loop])
                 keys.append(distanceCal(code, key[loop]))
-    d = dict(zip(keys, provinces))
-    if ifset==0 : return d
-    d_k = dict(sorted(d.items(), key=lambda x: x[0]))
-    values = set()
-    l = list(d_k.keys())[:]
-    for loop in l:
-        val = d_k[loop]
-        if val in values:
-            del d_k[loop]
-        else:
-            values.add(val)
-    return d_k
+                laslons.append(geohash.decode(key[loop]))
+
+    # if ifset==0 : return keys,provinces,laslons
+    check = set()
+    finalResult = []
+    for j in range(len(keys)):
+        if provinces[i] in check and ifset == 1: continue
+        check.add(provinces[j])
+        finalResult.append([keys[j], provinces[j], laslons[j]])
+    return finalResult
+
+    # d = dict(zip(keys, provinces))
+    # d_k = dict(sorted(d.items(), key=lambda x: x[0]))
+    # values = set()
+    # l = list(d_k.keys())[:]
+    # for loop in l:
+    #     val = d_k[loop]
+    #     if val in values:
+    #         del d_k[loop]
+    #     else:
+    #         values.add(val)
+    # return list(d_k.keys()), list(d_k.values()), laslons
 
 def distanceCal(code1,code2):
     lat1, lon1 = geohash.decode(code1)
@@ -131,17 +147,17 @@ def compare2provinces(orig, comp1, comp2, precis):
     return comp1 if count1<count2 else comp2
 
 
+
 if __name__ == '__main__':
-    # print("The Geohash precision in this project is 6")
-    # lat = float(input("Please input Latitude and press Enter: "))
-    # lon = float(input("Please input Longitude and press Enter: "))
-    # K = int(input("Please input how many provinces you want to find near this point: "))
-    # ifset = int(input("Do you want to remove the repolicated points in same provinces in the results? (1-yes, 0-no) "))
     arguments = sys.argv
-    ans = findNearestProvince(float(arguments[1]),float(arguments[2]), int(arguments[3]), int(arguments[4]))
-    # ans = findNearestProvince(36.4611122, -109.4784394,6, 1)
-    for k,v in ans.items():
-        print("The nearest reference point would be in" + str(v) + " with approximately "+ str(k) + " km distance")
-    if int(arguments[4]) :
-        print("This results has removed the replicated points.")
+    finalResults = findNearestProvince(float(arguments[1]),float(arguments[2]), int(arguments[3]), int(arguments[4]))
+    # finalResults = findNearestProvince(40, -95 ,5, 1)
+    js = {}
+    for i in range(int(arguments[3])):
+        js[i] = {'lat':finalResults[i][2][0], 'lon':finalResults[i][2][1], 'info':finalResults[i][1], 'dist':finalResults[i][0]}
+    ret = json.dumps(js)
+    ans = open("results.json","w")
+    ans.write(ret)
+    ans.close()
+
 

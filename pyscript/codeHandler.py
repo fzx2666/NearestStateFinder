@@ -21,7 +21,7 @@ def findNearestProvince(lat, lon, K, ifset,folderPath = "./dics/" ):
     # print(json_list)
 
     n1 = findHelper(pre3,json_list,10)#find 10 nearest json files
-    print(n1)
+    # print(n1)
     # print(n1,n2)
 
     middle = n1[-1]

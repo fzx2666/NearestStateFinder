@@ -197,8 +197,9 @@ export default class App extends Vue {
   public numberOfCities = 1;
   public markers: Marker[] = [];
   public cities: CityInfo[] = [];
-  pyPath = 'D:/repos/NearestStateFinder/';
+  pyPath = './pyscript/';
   onMapClick(event: any): void{
+    console.log(process.cwd());
     Vue.set(this.markers,0,new Marker(event.latLng));
     const lat = event.latLng.lat();
     const lng = event.latLng.lng();
@@ -227,6 +228,7 @@ export default class App extends Vue {
         console.log(result);
       }
     });
+
   }
   public get google(){
     return VueGoogleMaps.gmapApi;

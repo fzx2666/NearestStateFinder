@@ -15,11 +15,13 @@ def findNearestProvince(lat, lon, K, ifset,folderPath = "./dics/" ):
     print("GeoHash Code: "+code)
 
     # neighbours = geohash.neighbours(code)
-    pre3 = code[0:3]
+    pre3 = code[0:3]    
     json_list = os.listdir(folderPath)
+    list.sort(json_list)
     # print(json_list)
 
     n1 = findHelper(pre3,json_list,10)#find 10 nearest json files
+    print(n1)
     # print(n1,n2)
 
     middle = n1[-1]
@@ -150,7 +152,7 @@ def compare2provinces(orig, comp1, comp2, precis):
 
 if __name__ == '__main__':
     arguments = sys.argv
-    if(len(arguments)<=4):
+    if(len(arguments)<=5):
         finalResults = findNearestProvince(float(arguments[1]),float(arguments[2]), int(arguments[3]), int(arguments[4]))
     else:
         print(arguments)
@@ -163,7 +165,7 @@ if __name__ == '__main__':
     ans = open("results.json","w")
     ans.write(ret)
     ans.close()
-    if len(arguments)>5:
+    if len(arguments)<=5:
         print(ret)
 
 

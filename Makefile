@@ -23,7 +23,7 @@ all:
 # Implicit rules: $@ = target name, $< = first prerequisite name, $^ = name of all prerequisites
 #============================================================
 run: all
-	$(ELECTRON_FOLDER)/dist_electron/linux-unpacked/gui
+	$(ELECTRON_FOLDER)/dist_electron/linux-unpacked/gui --no-sandbox
 
 
 clean:

@@ -5,6 +5,7 @@ import shutil
 import re
 import math
 from datetime import datetime
+import sys
 
 def findNearestProvince(lat, lon, K, ifset):
     # print(lat, lon)
@@ -131,14 +132,16 @@ def compare2provinces(orig, comp1, comp2, precis):
 
 
 if __name__ == '__main__':
-    print("The Geohash precision in this project is 6")
-    lat = float(input("Please input Latitude and press Enter: "))
-    lon = float(input("Please input Longitude and press Enter: "))
-    K = int(input("Please input how many provinces you want to find near this point: "))
-    ifset = int(input("Do you want to remove the repolicated points in same provinces in the results? (1-yes, 0-no) "))
-    ans = findNearestProvince(lat,lon, K, 1)
+    # print("The Geohash precision in this project is 6")
+    # lat = float(input("Please input Latitude and press Enter: "))
+    # lon = float(input("Please input Longitude and press Enter: "))
+    # K = int(input("Please input how many provinces you want to find near this point: "))
+    # ifset = int(input("Do you want to remove the repolicated points in same provinces in the results? (1-yes, 0-no) "))
+    arguments = sys.argv
+    ans = findNearestProvince(float(arguments[1]),float(arguments[2]), int(arguments[3]), int(arguments[4]))
     # ans = findNearestProvince(36.4611122, -109.4784394,6, 1)
     for k,v in ans.items():
         print("The nearest reference point would be in" + str(v) + " with approximately "+ str(k) + " km distance")
-    if ifset :
+    if int(arguments[4]) :
         print("This results has removed the replicated points.")
+

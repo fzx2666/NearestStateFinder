@@ -165,7 +165,6 @@ if __name__ == '__main__':
     ans = open("results.json","w")
     ans.write(ret)
     ans.close()
-    if len(arguments)<=5:
-        print(ret)
+    print(ret)
 
 

@@ -36,8 +36,6 @@ Please input Longitude and press Enter:
 Please input how many provinces you want to find near this point:
 Do you want to remove the repolicated points in same provinces in the results? (1-yes, 0-no)
 ```
-### via Gui
-![video](./readme_resources/screenshot.gif)
 - Here's an example input and output:
 ```
 The Geohash precision in this project is 6
@@ -51,6 +49,9 @@ The nearest reference point would be in NM San Juan with approximately 64.563011
 The nearest reference point would be in NM McKinley with approximately 136.6712929858626 km distance
 This results has removed the replicated points.
 ```
+
+### via Gui
+![video](./readme_resources/screenshot.gif)
 
 ## Technologies
 * Vue.js

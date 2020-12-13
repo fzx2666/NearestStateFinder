@@ -35,7 +35,7 @@ Please input how many provinces you want to find near this point:
 Do you want to remove the repolicated points in same provinces in the results? (1-yes, 0-no)
 ```
 ### via Gui
-![video](screenshot.gif)
+![video](./readme_resources/screenshot.gif)
 - Here's an example input and output:
 ```
 The Geohash precision in this project is 6

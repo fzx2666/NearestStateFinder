@@ -58,8 +58,8 @@
 
                     <v-list-item-content>
                       <v-list-item-title v-html="city.name"></v-list-item-title>
-                      <v-list-item-subtitle v-html="item.info"></v-list-item-subtitle>
-                      <v-list-item-subtitle v-html="item.getDescription()"></v-list-item-subtitle>
+                      <v-list-item-subtitle v-html="city.info"></v-list-item-subtitle>
+                      <v-list-item-subtitle v-html="city.getDescription()"></v-list-item-subtitle>
                     </v-list-item-content>
                   </v-list-item>
                 </template>
@@ -130,6 +130,15 @@
                 :draggable="true"
                 @click="center=m.position"
               />
+              
+              <GmapMarker
+                :key="index+1"
+                v-for="(city, index) in cities"
+                :position="city.marker.position"
+                :clickable="true"
+                :draggable="true"
+                @click="center=city.marker.position"
+              />
             </GmapMap>
             </v-sheet>
           </v-col>
@@ -138,6 +147,7 @@
     </v-main>
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    
   </v-app>
 </template>
 
@@ -145,7 +155,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import HelloWorld from './components/HelloWorld.vue';
 import {PythonShell} from 'python-shell'
-import {gmapApi} from 'vue2-google-maps'
+import * as VueGoogleMaps from 'vue2-google-maps'
 
 class Marker{
   public position = undefined
@@ -198,14 +208,28 @@ export default class App extends Vue {
       pythonOptions: ['-u'],
       args: [lat,lng,this.numberOfCities,1,this.pyPath]
     }
-    console.log(shellOptions);
     PythonShell.run('codeHandler.py',shellOptions,(err,result)=>{
-      console.log(err);
-      console.log(result);
+      
+      if(err==null&&result!=undefined){
+        console.log(result[2]);
+        const results = JSON.parse(result[2]);
+        const cities: CityInfo[] = [];
+        for(const res of results){
+
+          const info = new CityInfo(new Marker(new (this.google().maps.LatLng)(res.lat,res.lon)),res.info,res.info,res.dist);
+          cities.push(info);
+          //console.log(new (this.google().maps.LatLng)(res.lat,res.lon))
+        }
+        this.cities = cities;
+      }
+      else{
+        console.log(err);
+        console.log(result);
+      }
     });
   }
-  public get google(): any{
-    return gmapApi;
+  public get google(){
+    return VueGoogleMaps.gmapApi;
   }
 }
 

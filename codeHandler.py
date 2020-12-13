@@ -51,7 +51,7 @@ def findNearestProvince(lat, lon, K, ifset,folderPath = "./dics/" ):
     check = set()
     finalResult = []
     for j in range(len(keys)):
-        if provinces[i] in check and ifset == 1: continue
+        if provinces[j] in check and ifset == 1: continue
         check.add(provinces[j])
         finalResult.append([keys[j], provinces[j], laslons[j]])
     return finalResult
@@ -156,14 +156,14 @@ if __name__ == '__main__':
         print(arguments)
         finalResults = findNearestProvince(float(arguments[1]),float(arguments[2]), int(arguments[3]), int(arguments[4]),arguments[5]+'dics/')
     # finalResults = findNearestProvince(40, -95 ,5, 1)
-    js = {}
-    for i in range(int(arguments[3])):
-        js[i] = {'lat':finalResults[i][2][0], 'lon':finalResults[i][2][1], 'info':finalResults[i][1], 'dist':finalResults[i][0]}
+    js = []
+    for i in range(min(int(arguments[3]),len(finalResults))):
+        js.append({'lat':finalResults[i][2][0], 'lon':finalResults[i][2][1], 'info':finalResults[i][1], 'dist':finalResults[i][0]})
     ret = json.dumps(js)
     ans = open("results.json","w")
     ans.write(ret)
     ans.close()
     if len(arguments)>5:
-        print(js)
+        print(ret)
 
 

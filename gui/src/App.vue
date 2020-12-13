@@ -147,9 +147,6 @@ import HelloWorld from './components/HelloWorld.vue';
 import {PythonShell} from 'python-shell'
 import {gmapApi} from 'vue2-google-maps'
 
-declare global {
-    interface Window { child_process: any }
-}
 class Marker{
   public position = undefined
   constructor(latLng: any){

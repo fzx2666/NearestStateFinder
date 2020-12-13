@@ -37,7 +37,7 @@ Please input how many provinces you want to find near this point:
 Do you want to remove the repolicated points in same provinces in the results? (1-yes, 0-no)
 ```
 
-- Note: In this version this user interface is ```python3 codeHandler 36.4611122 -109.4784394 6 1```
+- Note: In this version, the user interface is ```python3 codeHandler 36.4611122 -109.4784394 6 1```
 - Here's an example input and output:
 ```
 The Geohash precision in this project is 6

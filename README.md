@@ -4,6 +4,7 @@
 - This project can run in the python 3.6 or higher version.
 - The first step to run this project will be to unzip the ```NationalFile.tar``` and get the information file of the provinces and states. 
 ``` 
+cd pyscript
 python3 textReader.py NationalFile_StateProvinceDecimalLatLong.txt
 ```
 
@@ -34,3 +35,6 @@ The nearest reference point would be in NM San Juan with approximately 64.563011
 The nearest reference point would be in NM McKinley with approximately 136.6712929858626 km distance
 This results has removed the replicated points.
 ```
+## TroubleShoot
+1. Unable to show the google map.
+running the gui program on scc

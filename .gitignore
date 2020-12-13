@@ -1,0 +1,26 @@
+.DS_Store
+/gui/node_modules
+/gui/dist
+
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+/gui/npm-debug.log*
+/gui/yarn-debug.log*
+/gui/yarn-error.log*
+/gui/pnpm-debug.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+#Electron-builder output
+/gui/dist_electron
